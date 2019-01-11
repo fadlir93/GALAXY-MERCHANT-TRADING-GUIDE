@@ -1,11 +1,18 @@
 package app;
-import java.io.Console;
-import java.io.FileReader;
+
+import java.lang.reflect.Field;
+import java.util.Scanner;
 
 
 public class App {
-
+    static Scanner getin = new Scanner (System.in);
+    
+    
+    
     public App(){
+
+        App input = new App();
+
         // Declare Symbol Romawi to Value
         int I = 1;
         int V = 5;
@@ -15,28 +22,23 @@ public class App {
         int D = 500;
         int M = 1000;
 
-        double glob = I;
-        double prok = V;
-        double pish = X;
-        double tegj = L;
-
-        double silver = 17;
-        double gold = 14450;
-        double iron = 195.5;
+        System.out.print("Enter your name's Initials:" );  
+        String Name = getin.nextLine();
+        char[] array = Name.toCharArray();
         
-        double result = 0; 
-        
-
-        double [] array = {glob, prok, iron}; //Input Initial Symbol Romawi
-
-
-        String resultFalse  = "Error Input Romawi, Max repeated 3 times";
+        int result = 0; // the result of all Roman numerals
+        String resultFalse  = "Error Input Romawi , Max repeated 3 times";
         String resultFalse2 = "Error Input Romawi, Can't Repeat symbol Romawi D / L / V ";
         String resultFalse3 = "Error Input Romawi, Symbol Romawi I only can be Subtracted V & X";
         String resultFalse4 = "Error Input Romawi, Symbol Romawi X only can be Subtracted L & C";
         for (int i = 0; i <= array.length-2; i++) {    
             int j = i + 1;
-            
+            String Si = String.valueOf(array[i]);
+            String Sj = String.valueOf(array[j]);
+            Field SiI = input.getClass().getField(Si);
+            Field SjJ = input.getClass().getField(Sj);
+            int finalI = (int)SiI.get(input);
+            int finalJ = (int)SjJ.get(input);
             //this condition can't repeated Symbol Romawi D / L / V
             if (array[i] == D || array[i] == L || array[i] == V) {
                 if (array[i] == array[j]) {
@@ -60,41 +62,28 @@ public class App {
                 } else if (array[i] == array[j]) {
                     result += array[i] + array[j];
                 }
-            //this condition when i greater than j
             } else if (array[i] > array[j]){
                 result += array[i];
-            //this condition when i smaller than j
             } else if (array[i] < array [j]) {
                 result += array[j] - array[i];
                 i += 1;
-                //this condition when there is Silver / gold / iron || when calculating the last digit
-                if (i == array.length-2 ) {
-                    if(array[i] < array[j+1] ) {
-                        result = result * array[j+1] ;
-                    }
-                }
-
-             //this condition when i and j values are the same  
+             //ths condition when i and j values are the same  
             } else if (array[i] == array[j]) {
                 //this condition for repeat is more than 3 times , output result msg error
-                if ((array.length-1 - i) == 4 || array.length == 4) {
+                if ((array.length-1 - i) == 4) {
                     if (array[i] == array[j] && array[i] == array[j+1] && array[i] == array[j+2]) {
                         throw new ArithmeticException(resultFalse);
                     }
                 }
                 result += array[i] + array[j];
                 i += 1;
-                if (i == array.length-2) {
-                    if (array[i] < array[j+1]){
-                        result *= array[j+1];
-                    } else {
-                    result += array[i];
-                    }
+                if (i == array.length-2 ) {
+                    result += array[j];
                 }
-            }              
-        }    
-        int resultFinal = (int) Math.round(result);
-        System.out.println(resultFinal);      
+            }       
+                
+        }
+        System.out.println(result);
     }
     
     public static void main(String[] args) {
