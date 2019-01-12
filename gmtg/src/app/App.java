@@ -20,81 +20,103 @@ public class App {
         double pish = X;
         double tegj = L;
 
-        double silver = 17;
-        double gold = 14450;
-        double iron = 195.5;
+        double Silver = 17;
+        double Gold = 14450;
+        double Iron = 195.5;
         
         double result = 0; 
         
 
-        double [] array = {glob, prok, iron}; //Input Initial Symbol Romawi
-
+        double [][] array = {{pish, tegj, glob, glob},{glob, prok, Silver},{glob, prok, Gold}, {glob, prok, Iron}}; //Input Initial Symbol Romawi
+        
 
         String resultFalse  = "Error Input Romawi, Max repeated 3 times";
         String resultFalse2 = "Error Input Romawi, Can't Repeat symbol Romawi D / L / V ";
         String resultFalse3 = "Error Input Romawi, Symbol Romawi I only can be Subtracted V & X";
         String resultFalse4 = "Error Input Romawi, Symbol Romawi X only can be Subtracted L & C";
-        for (int i = 0; i <= array.length-2; i++) {    
-            int j = i + 1;
-            
-            //this condition can't repeated Symbol Romawi D / L / V
-            if (array[i] == D || array[i] == L || array[i] == V) {
-                if (array[i] == array[j]) {
-                    throw new ArithmeticException(resultFalse2);
-                }
-            }
-            //this condition return message error if symbol romawi  L / C / D / M subtracted I
-            if (array[i] == I && (array[j] == L ||array[j] == C || array[j] == D || array[j] == M)) {
-                throw new ArithmeticException(resultFalse3);
-            }
-            //this condition return message error if symbol romawi V / D / M subtracted X
-            if (array[i] == X && (array[j] == D || array[j] == M)) {
-                throw new ArithmeticException(resultFalse4);
-            }
-            
-            if (i == array.length-2) {             //this condition for the last condition when comparing array values,  
-                if (array[i] < array[j]) {         //because if you do not use this function
-                    result += array[j] - array[i]; //then when the condition value 1 is greater than value 2
-                } else if (array[i] > array[j]) {  //, the last value cannot be calculated
-                    result += array[i] + array[j];
-                } else if (array[i] == array[j]) {
-                    result += array[i] + array[j];
-                }
-            //this condition when i greater than j
-            } else if (array[i] > array[j]){
-                result += array[i];
-            //this condition when i smaller than j
-            } else if (array[i] < array [j]) {
-                result += array[j] - array[i];
-                i += 1;
-                //this condition when there is Silver / gold / iron || when calculating the last digit
-                if (i == array.length-2 ) {
-                    if(array[i] < array[j+1] ) {
-                        result = result * array[j+1] ;
+        for(int h = 0; h < array.length; h++) {
+            for (int i = 0; i <= array[h].length-2; i++) {    
+                int j = i + 1;
+                
+                //this condition can't repeated Symbol Romawi D / L / V
+                if (array[h][i] == D || array[h][i] == L || array[h][i] == V) {
+                    if (array[h][i] == array[h][j]) {
+                        throw new ArithmeticException(resultFalse2);
                     }
                 }
+                //this condition return message error if symbol romawi  L / C / D / M subtracted I
+                if (array[h][i] == I && (array[h][j] == L ||array[h][j] == C || array[h][j] == D || array[h][j] == M)) {
+                    throw new ArithmeticException(resultFalse3);
+                }
+                //this condition return message error if symbol romawi V / D / M subtracted X
+                if (array[h][i] == X && (array[h][j] == D || array[h][j] == M)) {
+                    throw new ArithmeticException(resultFalse4);
+                }
+                
+                if (i == array[h].length-2) {             //this condition for the last condition when comparing array values,  
+                    if (array[h][i] < array[h][j]) {         //because if you do not use this function
+                        result += array[h][j] - array[h][i]; //then when the condition value 1 is greater than value 2
+                    } else if (array[h][i] > array[h][j]) {  //, the last value cannot be calculated
+                        result += array[h][i] + array[h][j];
+                    } else if (array[h][i] == array[h][j]) {
+                        result += array[h][i] + array[h][j];
+                    }
+                //this condition when i greater than j
+                } else if (array[h][i] > array[h][j]){
+                    result += array[h][i];
+                //this condition when i smaller than j
+                } else if (array[h][i] < array[h][j]) {
+                    result += array[h][j] - array[h][i];
+                    i += 1;
+                    //this condition when there is Silver / gold / iron || when calculating the last digit
+                    if (i == array[h].length-2 ) {
+                        if(array[h][i] < array[h][j+1] ) {
+                            result = result * array[h][j+1] ;
+                        }
+                    }
 
-             //this condition when i and j values are the same  
-            } else if (array[i] == array[j]) {
-                //this condition for repeat is more than 3 times , output result msg error
-                if ((array.length-1 - i) == 4 || array.length == 4) {
-                    if (array[i] == array[j] && array[i] == array[j+1] && array[i] == array[j+2]) {
-                        throw new ArithmeticException(resultFalse);
+                //this condition when i and j values are the same  
+                } else if (array[h][i] == array[h][j]) {
+                    //this condition for repeat is more than 3 times , output result msg error
+                    if ((array[h].length-1 - i) == 4 || array[h].length == 4) {
+                        if (array[h][i] == array[h][j] && array[h][i] == array[h][j+1] && array[h][i] == array[h][j+2]) {
+                            throw new ArithmeticException(resultFalse);
+                        }
+                    }
+                    result += array[h][i] + array[h][j];
+                    i += 1;
+                    if (i == array.length-2) {
+                        if (array[h][i] < array[h][j+1]){
+                            result *= array[h][j+1];
+                        } else {
+                        result += array[h][i];
+                        }
                     }
                 }
-                result += array[i] + array[j];
-                i += 1;
-                if (i == array.length-2) {
-                    if (array[i] < array[j+1]){
-                        result *= array[j+1];
-                    } else {
-                    result += array[i];
-                    }
-                }
-            }              
-        }    
-        int resultFinal = (int) Math.round(result);
-        System.out.println(resultFinal);      
+                       
+            }
+            //Output all result
+            int resultFinal = (int) Math.round(result);
+            switch(h) {
+                case 0:
+                    System.out.println("pish tegj glob glob is " + resultFinal + " Credits");
+                    result = 0;
+                break;
+                case 1:
+                    System.out.println("glob prok Silver is " + resultFinal + " Credits");
+                    result = 0;
+                break;
+                case 2:
+                    System.out.println("glob prok Gold is " + resultFinal + " Credits");
+                    result = 0;
+                break;
+                case 3:
+                    System.out.println("glob prok Iron is " + resultFinal + " Credits");
+                    result = 0;
+                break;
+            }
+                
+        }         
     }
     
     public static void main(String[] args) {
